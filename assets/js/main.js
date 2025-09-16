@@ -10,6 +10,26 @@
   "use strict";
 
   /**
+   * Smooth scroll for in-page links (nav + hero button)
+   */
+  function smoothScrollToHash(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return;
+    const scrollMarginTop = parseInt(getComputedStyle(target).scrollMarginTop || '0', 10);
+    window.scrollTo({ top: target.offsetTop - scrollMarginTop, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#') && href.length > 1) {
+        e.preventDefault();
+        smoothScrollToHash(href);
+      }
+    });
+  });
+
+  /**
    * Header toggle
    */
   const headerToggleBtn = document.querySelector('.header-toggle');
